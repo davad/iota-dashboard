@@ -1,6 +1,9 @@
 'use strict';
-var Transaction = require('./schema.js').Transaction;
 var createError = require('http-errors');
+
+var Transaction = require('./schema.js').Transaction;
+var random_tryte = require('../util/random_tryte');
+
 /**
  * Operations on /transaction
  */
@@ -43,6 +46,7 @@ module.exports = {
     post: {
         201: function (req, res, callback) {
           var transaction = new Transaction( req.body );
+          transaction.id = random_tryte();
           transaction.save();
           res.json(transaction);
         },

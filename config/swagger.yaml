@@ -8,6 +8,12 @@ info:
   license:
     name: Apache 2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+securityDefinitions:
+  api_key:
+    type: apiKey
+    name: api_key
+    in: header
+    x-authorize: "security/api_key.js"
 tags:
   - name: admins
     description: Secured Admin-only calls
@@ -41,6 +47,24 @@ paths:
         '400':
           description: bad input parameter
   /transaction:
+    get:
+      tags:
+        - developers
+      summary: retrieve a list of transactions
+      operationId: getAllTransaction
+      description: |
+        List all transactions
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: transactions matching criteria
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Transaction'
+        '400':
+          description: bad input parameter
     post:
       tags:
         - admins
@@ -66,6 +90,8 @@ paths:
           description: 'invalid input, object invalid'
         '409':
           description: an existing item already exists
+      security:
+        - api_key: []
 definitions:
   Transaction:
     type: object
@@ -90,5 +116,5 @@ definitions:
         type: string
         format: int32
         example: 100
-host: localhost
-basePath: /v1
+host: virtserver.swaggerhub.com
+basePath: /api/v1

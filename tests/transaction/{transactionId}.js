@@ -19,7 +19,8 @@ Test('/transaction/{transactionId}', function (t) {
     }));
     App.use(Swaggerize({
         api: apiPath,
-        handlers: Path.resolve(__dirname, '../../handlers')
+        handlers: Path.resolve(__dirname, '../../handlers'),
+        security: Path.resolve(__dirname, '../../security')
     }));
     Parser.validate(apiPath, function (err, api) {
         t.error(err, 'No parse error');
@@ -44,7 +45,7 @@ Test('/transaction/{transactionId}', function (t) {
                 //Get the resolved path from mock request
                 //Mock request Path templates({}) are resolved using path parameters
                 request = Request(App)
-                    .get('/davad/iota-dashboard/1.0.0' + mock.request.path);
+                    .get('/api/v1' + mock.request.path);
                 if (mock.request.body) {
                     //Send the request body
                     request = request.send(mock.request.body);

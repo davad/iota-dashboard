@@ -1,9 +1,37 @@
 'use strict';
-var Models = require('./schema.js');
+var Transaction = require('./schema.js').Transaction;
+var createError = require('http-errors');
 /**
  * Operations on /transaction
  */
 module.exports = {
+    /**
+     * summary: retrieve a list of transactions
+     * description: List all transactions
+
+     * parameters: 
+     * produces: application/json
+     * responses: 200, 400
+     * operationId: getAllTransaction
+     */
+    get: {
+        200: function (req, res, callback) {
+          Transaction.find({}, function(err, data) {
+            if(err) {}
+
+            if (data) {
+              res.json(data);
+            }
+            else {
+              callback(createError(404, 'Transaction not found'));
+            }
+          });
+
+        },
+        400: function (req, res, callback) {
+          callback(createError(400, 'Bad request'));
+        }
+    },
     /**
      * summary: add a transaction
      * description: Adds a transaction to the ledger
@@ -14,9 +42,9 @@ module.exports = {
      */
     post: {
         201: function (req, res, callback) {
-            var transaction = new Models.Transaction( req.body );
-            transaction.save();
-            res.json(transaction);
+          var transaction = new Transaction( req.body );
+          transaction.save();
+          res.json(transaction);
         },
         400: function (req, res, callback) {
             callback(createError(400, 'Bad request'));

@@ -18,7 +18,6 @@ module.exports = {
      */
     get: {
         200: function (req, res, callback) {
-          console.log(req.params);
           Transaction.findOne({id: req.params.transactionId}, function(err, data) {
             if(err) {}
 

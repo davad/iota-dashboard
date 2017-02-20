@@ -1,0 +1,19 @@
+name: iota-dashboard-api-client
+version: "1.0.0"
+summary: Wrapper to communicate with the iota demo dashboard
+description: A nodejs application that parses and passes along API calls
+confinement: devmode
+
+apps:
+  express:
+    command: node $SNAP/lib/node_modules/iota-dashboard/server.js
+    daemon: simple
+    plugs:
+    - network-bind
+
+parts:
+  webserver:
+    plugin: nodejs
+    node-engine: "6.9.4"
+    source: .
+    build-packages: [build-essential, git]

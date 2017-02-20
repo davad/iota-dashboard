@@ -18,6 +18,7 @@
     "express": "^4.0.0",
     "http-errors": "^1.6.0",
     "http-errors-express": "^2.0.1",
+    "iota-dashboard-api-client": "github:davad/iota-dashboard-api-client",
     "mongoose": "^4.8.3",
     "randomstring": "^1.1.5",
     "swagger-mongoose": "^1.1.2",

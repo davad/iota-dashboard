@@ -2,7 +2,8 @@
 var createError = require('http-errors');
 
 var Transaction = require('./schema.js').Transaction;
-var random_tryte = require('../util/random_tryte');
+var AdminsApi = require('./schema.js').AdminsApi;
+var DevelopersApi = require('./schema.js').DevelopersApi;
 
 /**
  * Operations on /transaction
@@ -19,15 +20,9 @@ module.exports = {
      */
     get: {
         200: function (req, res, callback) {
-          Transaction.find({}, function(err, data) {
-            if(err) {}
-
-            if (data) {
-              res.json(data);
-            }
-            else {
-              callback(createError(404, 'Transaction not found'));
-            }
+          DevelopersApi.getAllTransaction(function(error, data, response) {
+            res.status(response.statusCode); // Pass along status code, so we don't swallow errors
+            res.send(response.text);
           });
 
         },
@@ -45,10 +40,12 @@ module.exports = {
      */
     post: {
         201: function (req, res, callback) {
-          var transaction = new Transaction( req.body );
-          transaction.id = random_tryte();
-          transaction.save();
-          res.json(transaction);
+          var transaction = new Transaction( req.body.sender, req.body.recipient, String(req.body.value) );
+
+          AdminsApi.addTransaction( {'transaction': transaction}, function(error, data, response) {
+            res.status(response.statusCode); // Pass along status code, so we don't swallow errors
+            res.send(response.text);
+          });
         },
         400: function (req, res, callback) {
             callback(createError(400, 'Bad request'));

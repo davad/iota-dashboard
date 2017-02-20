@@ -1,6 +1,6 @@
 'use strict';
-var Mockgen = require('../schema.js');
 var Transaction = require('../schema.js').Transaction;
+var DevelopersApi = require('../schema.js').DevelopersApi;
 var createError = require('http-errors');
 
 /**
@@ -18,15 +18,9 @@ module.exports = {
      */
     get: {
         200: function (req, res, callback) {
-          Transaction.findOne({id: req.params.transactionId}, function(err, data) {
-            if(err) {}
-
-            if (data) {
-              res.json(data);
-            }
-            else {
-              callback(createError(404, 'Transaction not found'));
-            }
+          DevelopersApi.getTransaction( req.params.transactionId, function(error, data, response) {
+            res.status(response.statusCode); // Pass along status code, so we don't swallow errors
+            res.send(response.text);
           });
         },
         400: function (req, res, callback) {

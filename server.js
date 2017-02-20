@@ -24,7 +24,7 @@ app.use(swaggerize({
 // This middleware should be last
 app.use(httpErrors());
 
-server.listen(3000, function () {
+server.listen(3000, 'localhost', function () {
     app.swagger.api.host = this.address().address + ':' + this.address().port;
     /* eslint-disable no-console */
     console.log('app running on %s:%d', this.address().address, this.address().port);

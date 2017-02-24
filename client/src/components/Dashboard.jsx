@@ -7,6 +7,7 @@ import EditBar from './EditBar';
 import Container from './Container';
 import AddWidgetDialog from './AddWidgetDialog';
 import CustomFrame from './CustomFrame';
+import { QueryContainer } from './QueryContainer';
 
 // Widgets of the dashboard.
 import BarChart from './widgets/BarChart';
@@ -117,6 +118,8 @@ class App extends Component {
     <Container>
       <Header />
       <CountChanged data={[1,2]} />
+
+      <QueryContainer />
 
     </Container>
     );

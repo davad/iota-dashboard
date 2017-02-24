@@ -1,2 +1,5 @@
-coverage
-templates
+bin/**
+dist/**
+build/**
+tmp/**
+coverage/**

@@ -1,23 +1,34 @@
 'use strict';
 
 var http = require('http');
+const path = require('path');
+
 var express = require('express');
 var httpErrors = require('http-errors-express').default;
 var bodyparser = require('body-parser');
 var mongoose = require('mongoose');
-var getRoutes = require('get-routes');
+const helmet = require('helmet');
+const winston = require('winston');
 
 // Imports for RESTful and GraphQL APIs
 var swaggerize = require('swaggerize-express');
-
 var graffiti = require('@risingstack/graffiti');
 var getSchema = require('@risingstack/graffiti-mongoose').getSchema;
-
 var models = require('./data/models');
 
 
+// Begin express application
 var app = express();
 var server = http.createServer(app);
+const PORT = process.env.PORT || 8080;
+
+app.use(helmet());
+
+// Static assets
+const assetsPath = path.join(__dirname, './client/dist');
+const index = 'index.html';
+app.use(express.static(assetsPath));
+app.get('/', (req, res) => res.sendFile(path.join(assetsPath, index)));
 
 // Setup mongo connection and event handlers
 var db = mongoose.connection;
@@ -66,9 +77,14 @@ app.use(graffiti.express({
 // This middleware should be last
 app.use(httpErrors());
 
-server.listen(8000, function () {
-    app.swagger.api.host = this.address().address + ':' + this.address().port;
-    /* eslint-disable no-console */
-    console.log('app running on %s:%d', this.address().address, this.address().port);
-    /* eslint-disable no-console */
+server.listen(PORT, function(err) {
+  if (err) {
+    winston.error(err);
+    return;
+  }
+
+  app.swagger.api.host = this.address().address + ':' + this.address().port;
+  /* eslint-disable no-console */
+  winston.info('app running on %s:%d', this.address().address, this.address().port);
+  /* eslint-disable no-console */
 });

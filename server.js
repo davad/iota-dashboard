@@ -4,13 +4,22 @@ var http = require('http');
 var express = require('express');
 var httpErrors = require('http-errors-express').default;
 var bodyparser = require('body-parser');
-var swaggerize = require('swaggerize-express');
 var mongoose = require('mongoose');
+var getRoutes = require('get-routes');
+
+// Imports for RESTful and GraphQL APIs
+var swaggerize = require('swaggerize-express');
+
+var graffiti = require('@risingstack/graffiti');
+var getSchema = require('@risingstack/graffiti-mongoose').getSchema;
+
+var models = require('./data/models');
+
 
 var app = express();
-
 var server = http.createServer(app);
 
+// Setup mongo connection and event handlers
 var db = mongoose.connection;
 
 db.on('error', function() {
@@ -36,10 +45,22 @@ app.use(bodyparser.urlencoded({
     extended: true
 }));
 
+// Stand up RESTful API
 app.use(swaggerize({
     api: require('./config/swagger.json'),
     docspath: '/api-docs',
     handlers: './handlers'
+}));
+
+// Stand up GraphQL API (remove mutations to make read only)
+var readOnlySchema = getSchema(models.Transaction);
+var noop = function(input) { };
+readOnlySchema._mutationType._fields.addTransaction.resolve = noop;
+readOnlySchema._mutationType._fields.updateTransaction.resolve = noop;
+readOnlySchema._mutationType._fields.deleteTransaction.resolve = noop;
+
+app.use(graffiti.express({
+  schema: readOnlySchema
 }));
 
 // This middleware should be last

@@ -1,7 +1,7 @@
 'use strict';
 var createError = require('http-errors');
 
-var Transaction = require('./schema.js').Transaction;
+var Transaction = require('./models.js').Transaction;
 var random_tryte = require('../util/random_tryte');
 
 /**

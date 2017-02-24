@@ -1,6 +1,5 @@
 'use strict';
-var Mockgen = require('../schema.js');
-var Transaction = require('../schema.js').Transaction;
+var Transaction = require('../models.js').Transaction;
 var createError = require('http-errors');
 
 /**

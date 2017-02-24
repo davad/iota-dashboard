@@ -1,5 +1,5 @@
-name: iota-dashboard-api-client
-version: "1.0.2"
+name: iota-mwc17
+version: "1.0.3"
 summary: Wrapper to communicate with the iota demo dashboard
 description: A nodejs application that parses and passes along API calls
 confinement: strict

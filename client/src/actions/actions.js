@@ -24,14 +24,6 @@ export function querySuccess(response) {
   };
 }
 
-export function errorAfterFiveSeconds() {
-  return (dispatch) => {
-    setTimeout( () => {
-      dispatch( queryFail(true) );
-    }, 5000);
-  };
-}
-
 export function execQuery(query) {
   return dispatch => {
     dispatch(queryLoading(query));

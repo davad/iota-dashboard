@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import Dashboard, { addWidget } from 'react-dazzle';
 
+import { connect } from 'react-redux';
+import { execQuery } from '../actions/actions';
+
 // App components
 import Header from './Header';
 import EditBar from './EditBar';
@@ -113,13 +116,38 @@ class App extends Component {
     });
   }
 
+  componentDidMount() {
+    const refreshIntervalId = setInterval( () => {
+      this.props.dispatch(
+        execQuery( 'query { transactions { sender, recipient, value } }' )
+      );
+      this.setState({refreshIntervalId});
+    }, 2000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.state.refreshIntervalId);
+  }
+
   render() {
+    const transactions  = this.props.store.get('data').get('transactions');
+    let isLoaded = false;
+    let output;
+
+    if (transactions) {
+      const values = transactions.map( tx => { return parseInt(tx.value) });
+      output = (
+        <CountChanged data={values.slice(-2)} />
+      )
+
+      isLoaded = true;
+    }
+
     return (
     <Container>
       <Header />
-      <CountChanged data={[1,2]} />
+      { isLoaded ? ( output ) : undefined }
 
-      <QueryContainer />
 
     </Container>
     );
@@ -153,4 +181,10 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    store: state
+  }
+};
+
+export default connect( mapStateToProps )(App);

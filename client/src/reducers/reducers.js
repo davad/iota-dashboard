@@ -8,8 +8,6 @@ const ImmutableState = Immutable.Map({
 
 
 export const queryReducer = ( state = ImmutableState, action) => {
-  console.log(action);
-
   switch (action.type) {
 
   case QUERY_LOADING:

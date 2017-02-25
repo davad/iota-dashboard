@@ -5,15 +5,10 @@ class CountChanged extends React.Component {
     data: React.PropTypes.arrayOf(React.PropTypes.number).isRequired,
   }
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      percentChange: this.calcChange(this.props.data[0], this.props.data[1]),
-    };
-  }
-
   render() {
-    const increaseState = this.state.percentChange >= 0;
+    const percentChange = this.calcChange(this.props.data[0], this.props.data[1]);
+
+    const increaseState = percentChange >= 0;
     const redGreenClass = increaseState ? 'm-green' : 'm-red';
     const arrowClass    = increaseState ? 'arrow-up' : 'arrow-down';
 
@@ -22,14 +17,14 @@ class CountChanged extends React.Component {
         <div className="metric"> {this.props.data[1]} </div>
         <div className={['change', redGreenClass, 'metric-small'].join(' ')}>
           <div className={arrowClass}> </div>
-          <span className="large">{this.state.percentChange}%</span>
+          <span className="large">{percentChange}%</span>
         </div>
        </div>
     );
   }
 
   calcChange(oldNum, newNum) {
-    return Math.round(100 * ((oldNum - newNum) / oldNum));
+    return Math.round(100 * ((newNum - oldNum) / oldNum));
   }
 
 }

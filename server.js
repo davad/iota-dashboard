@@ -70,6 +70,7 @@ readOnlySchema._mutationType._fields.addTransaction.resolve = noop;
 readOnlySchema._mutationType._fields.updateTransaction.resolve = noop;
 readOnlySchema._mutationType._fields.deleteTransaction.resolve = noop;
 
+
 app.use(graffiti.express({
   schema: readOnlySchema
 }));

@@ -1,30 +1,33 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getQuery } from '../actions/actions';
+import { execQuery } from '../actions/actions';
 
 class Query extends React.Component {
   componentDidMount() {
-    this.props.dispatch(
-      getQuery("{transaction(id: \"VHJhbnNhY3Rpb246NThhZjg1OGJjYzY1NTYyYWVmMGMwODM0\") {id, sender, recipient, value}}")
-    );
+    this.props.dispatch(execQuery( 'query { transactions { sender, recipient, value } }' ));
   }
+
 
   render() {
     let dispatch = this.props.dispatch;
-    let fetchInProgress = String(this.props.store.get('fetching'));
+    let fetchInProgress = String(this.props.store.get('loading'));
+    let transactions = this.props.store.get('data').get('transactions');
     let queryText;
-    let goldberg = this.props.store.get('data').toObject();
     return (
       <div>
         <p>Fetch in progress: {fetchInProgress}</p>
-        <p> {this.props.store.get('data')}</p>
-        <h3>{ goldberg.id }</h3>
-        <p>{ goldberg.sender }</p>
-        <p>{ goldberg.recipient }</p>
-        <p>{ goldberg.value }</p>
-        <input ref={node => {queryText = node}}></input>
+        <div>
+        {
+          
+          transactions ? transactions.map( tx => {
+            const sender = tx.sender;
+            return ( <div>{ sender }</div> )
+          }):undefined
+        }
+        </div>
+        <textarea ref={node => {queryText = node}}></textarea>
         <button onClick={() => {
-          dispatch(getQuery(queryText.value))}
+          dispatch(execQuery(queryText.value))}
         }>
           query
         </button>

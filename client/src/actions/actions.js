@@ -1,38 +1,63 @@
-const startingRequest = () => {
-  return {
-    type: 'STARTING_REQUEST',
-  };
-};
+// Action types
+export const QUERY_LOADING = 'QUERY_LOADING';
+export const QUERY_FAIL    = 'QUERY_FAIL';
+export const QUERY_SUCCESS = 'QUERY_SUCCESS';
 
-const finishedRequest = (response) => {
+export function queryLoading(query) {
   return {
-    type: 'FINISHED_REQUEST',
-    response: response,
+    type: QUERY_LOADING,
+    query,
   };
-};
+}
 
-export const getQuery = (query) => {
-  const payload = {
-    query: query,
+export function queryFail(error) {
+  return {
+    type: QUERY_FAIL,
+    error,
   };
+}
+
+export function querySuccess(response) {
+  return {
+    type: QUERY_SUCCESS,
+    response,
+  };
+}
+
+export function errorAfterFiveSeconds() {
+  return (dispatch) => {
+    setTimeout( () => {
+      dispatch( queryFail(true) );
+    }, 5000);
+  };
+}
+
+export function execQuery(query) {
   return dispatch => {
-    dispatch(startingRequest());
-    return new Promise(
-      function graphResponse(resolve, reject) {
-        const request = new XMLHttpRequest();
-        request.open( 'POST', '/graphql', true);
-        request.setRequestHeader( 'Content-Type', 'application/json' );
-        request.send( JSON.stringify(payload) );
-        request.onreadystatechange = () => {
-          if (request.readyState === 4) {
-            resolve( request.responseText );
-          } else {
-            reject( request.responseText );
-          }
-        };
-      }).then(response =>
-              dispatch(finishedRequest(JSON.parse(response))))
-        .catch( e => {e;} );
+    dispatch(queryLoading(query));
+
+    const payload = {
+      query: query,
+    };
+
+    fetch( '/graphql', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    }).then( response => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error(response.body);
+    }).then( json => {
+      return dispatch( querySuccess( json ) );
+    })
+    .catch( error => {
+      return dispatch( queryFail( error ) );
+    });
   };
-};
+}
 

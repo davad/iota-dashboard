@@ -13,7 +13,7 @@ class CountChanged extends React.Component {
     const arrowClass    = increaseState ? 'arrow-up' : 'arrow-down';
 
     return (
-      <div className="cf-svmc">
+      <div className="cf-svmc bigger">
         <div className="metric"> {this.props.data[1]} </div>
         <div className={['change', redGreenClass, 'metric-small'].join(' ')}>
           <div className={arrowClass}> </div>

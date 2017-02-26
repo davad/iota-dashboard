@@ -5,7 +5,7 @@ const Header = () => {
     <div className="top_nav">
         <div className="nav_menu">
             <nav className="dashboardHeader">
-                <img src="http://iotatoken.com/img/logo.png" height="40px"/>
+                <img src="http://iotatoken.com/img/logo.png" height="102px"/>
             </nav>
         </div>
     </div>

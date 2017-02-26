@@ -343,9 +343,9 @@ body.white {
     border-bottom: solid 1px darkgrey; }
     body.white .cf-funnel .cf-figstxts li:last-child {
       border-bottom: none; }
-  body.white .cf-rss .carousel-indicators .active {
+  body.white .slick-slider .slick-dots .slick-active {
     background-color: darkgrey; }
-  body.white .cf-rss .carousel-indicators li {
+  body.white .slick-slider .slick-dots li {
     border: 1px solid darkgrey; }
 
 .m-red {
@@ -1094,7 +1094,7 @@ body.white {
       height: 10px;
       margin-right: 7px; } }
 /** MODULE: RSS Feed **/
-.cf-rss .carousel-indicators {
+.slick-slider .slick-dots {
   position: relative;
   bottom: 0;
   margin-left: 0;
@@ -1103,134 +1103,134 @@ body.white {
   margin-bottom: 0; }
 
 @media (min-width: 768px) {
-  .cf-rss .item {
+  .slick-slider .slick-slide {
     height: 100%; }
-  .cf-rss .carousel {
+  .slick-slider .carousel {
     height: 100%; }
-  .cf-rss .carousel-inner {
+  .slick-slider .slick-list {
     height: 85%; }
-  .cf-rss blockquote {
+  .slick-slider blockquote {
     margin-bottom: 0;
     border-left-width: 1px;
     padding: 0 10px; }
 
-  .col-sm-6 .col-sm-4 .cf-rss {
+  .col-sm-6 .col-sm-4 .slick-slider {
     font-size: 0.8em; }
-    .col-sm-6 .col-sm-4 .cf-rss blockquote {
+    .col-sm-6 .col-sm-4 .slick-slider blockquote {
       padding: 0 5px; }
-      .col-sm-6 .col-sm-4 .cf-rss blockquote p {
+      .col-sm-6 .col-sm-4 .slick-slider blockquote p {
         margin-bottom: 2px;
         line-height: 1; }
-    .col-sm-6 .col-sm-4 .cf-rss p {
+    .col-sm-6 .col-sm-4 .slick-slider p {
       font-size: 1em; }
 
-  .col-sm-3 .cf-rss,
-  .col-sm-6 .col-sm-12 .col-sm-6 .cf-rss {
+  .col-sm-3 .slick-slider,
+  .col-sm-6 .col-sm-12 .col-sm-6 .slick-slider {
     font-size: 0.8em; }
-    .col-sm-3 .cf-rss p,
-    .col-sm-6 .col-sm-12 .col-sm-6 .cf-rss p {
+    .col-sm-3 .slick-slider p,
+    .col-sm-6 .col-sm-12 .col-sm-6 .slick-slider p {
       font-size: 1em; } }
 @media (min-width: 992px) {
-  .col-sm-6 .cf-rss {
+  .col-sm-6 .slick-slider {
     font-size: 2em; }
-    .col-sm-6 .cf-rss p {
+    .col-sm-6 .slick-slider p {
       font-size: 1em; }
 
-  .col-sm-6 .col-sm-4 .cf-rss {
+  .col-sm-6 .col-sm-4 .slick-slider {
     font-size: 1em; }
-    .col-sm-6 .col-sm-4 .cf-rss p {
+    .col-sm-6 .col-sm-4 .slick-slider p {
       font-size: 1em; }
 
-  .col-sm-3 .cf-rss,
-  .col-sm-6 .col-sm-12 .col-sm-6 .cf-rss {
+  .col-sm-3 .slick-slider,
+  .col-sm-6 .col-sm-12 .col-sm-6 .slick-slider {
     font-size: 1em; }
-    .col-sm-3 .cf-rss p,
-    .col-sm-6 .col-sm-12 .col-sm-6 .cf-rss p {
+    .col-sm-3 .slick-slider p,
+    .col-sm-6 .col-sm-12 .col-sm-6 .slick-slider p {
       font-size: 1em; } }
 @media (min-width: 1200px) {
-  .col-sm-6 .cf-rss {
+  .col-sm-6 .slick-slider {
     font-size: 2.5em; }
-    .col-sm-6 .cf-rss p {
+    .col-sm-6 .slick-slider p {
       font-size: 1em; }
 
-  .col-sm-6 .col-sm-4 .cf-rss {
+  .col-sm-6 .col-sm-4 .slick-slider {
     font-size: 1.5em; }
-    .col-sm-6 .col-sm-4 .cf-rss p {
+    .col-sm-6 .col-sm-4 .slick-slider p {
       font-size: 1em; }
 
-  .col-sm-3 .cf-rss,
-  .col-sm-6 .col-sm-12 .col-sm-6 .cf-rss {
+  .col-sm-3 .slick-slider,
+  .col-sm-6 .col-sm-12 .col-sm-6 .slick-slider {
     font-size: 1.4em; }
-    .col-sm-3 .cf-rss p,
-    .col-sm-6 .col-sm-12 .col-sm-6 .cf-rss p {
+    .col-sm-3 .slick-slider p,
+    .col-sm-6 .col-sm-12 .col-sm-6 .slick-slider p {
       font-size: 1em; } }
 @media (min-width: 1400px) {
-  .col-sm-6 .cf-rss {
+  .col-sm-6 .slick-slider {
     font-size: 3em; }
-    .col-sm-6 .cf-rss p {
+    .col-sm-6 .slick-slider p {
       font-size: 1em; }
 
-  .col-sm-6 .col-sm-4 .cf-rss {
+  .col-sm-6 .col-sm-4 .slick-slider {
     font-size: 1.6em; }
-    .col-sm-6 .col-sm-4 .cf-rss p {
+    .col-sm-6 .col-sm-4 .slick-slider p {
       font-size: 1em; }
 
-  .col-sm-3 .cf-rss,
-  .col-sm-6 .col-sm-12 .col-sm-6 .cf-rss {
+  .col-sm-3 .slick-slider,
+  .col-sm-6 .col-sm-12 .col-sm-6 .slick-slider {
     font-size: 1.6em; }
-    .col-sm-3 .cf-rss p,
-    .col-sm-6 .col-sm-12 .col-sm-6 .cf-rss p {
+    .col-sm-3 .slick-slider p,
+    .col-sm-6 .col-sm-12 .col-sm-6 .slick-slider p {
       font-size: 1em; } }
 @media (min-width: 1600px) {
-  .col-sm-6 .cf-rss {
+  .col-sm-6 .slick-slider {
     font-size: 3.5em; }
-    .col-sm-6 .cf-rss p {
+    .col-sm-6 .slick-slider p {
       font-size: 1em; }
 
-  .col-sm-6 .col-sm-4 .cf-rss {
+  .col-sm-6 .col-sm-4 .slick-slider {
     font-size: 1.8em; }
-    .col-sm-6 .col-sm-4 .cf-rss p {
+    .col-sm-6 .col-sm-4 .slick-slider p {
       font-size: 1em; }
 
-  .col-sm-3 .cf-rss,
-  .col-sm-6 .col-sm-12 .col-sm-6 .cf-rss {
+  .col-sm-3 .slick-slider,
+  .col-sm-6 .col-sm-12 .col-sm-6 .slick-slider {
     font-size: 1.8em; }
-    .col-sm-3 .cf-rss p,
-    .col-sm-6 .col-sm-12 .col-sm-6 .cf-rss p {
+    .col-sm-3 .slick-slider p,
+    .col-sm-6 .col-sm-12 .col-sm-6 .slick-slider p {
       font-size: 1em; } }
 @media (min-width: 1800px) {
-  .col-sm-6 .cf-rss {
+  .col-sm-6 .slick-slider {
     font-size: 4em; }
-    .col-sm-6 .cf-rss p {
+    .col-sm-6 .slick-slider p {
       font-size: 1em; }
 
-  .col-sm-6 .col-sm-4 .cf-rss {
+  .col-sm-6 .col-sm-4 .slick-slider {
     font-size: 2em; }
-    .col-sm-6 .col-sm-4 .cf-rss p {
+    .col-sm-6 .col-sm-4 .slick-slider p {
       font-size: 1em; }
 
-  .col-sm-3 .cf-rss,
-  .col-sm-6 .col-sm-12 .col-sm-6 .cf-rss {
+  .col-sm-3 .slick-slider,
+  .col-sm-6 .col-sm-12 .col-sm-6 .slick-slider {
     font-size: 2em; }
-    .col-sm-3 .cf-rss p,
-    .col-sm-6 .col-sm-12 .col-sm-6 .cf-rss p {
+    .col-sm-3 .slick-slider p,
+    .col-sm-6 .col-sm-12 .col-sm-6 .slick-slider p {
       font-size: 1em; } }
 @media (min-width: 2000px) {
-  .col-sm-6 .cf-rss {
+  .col-sm-6 .slick-slider {
     font-size: 4.5em; }
-    .col-sm-6 .cf-rss p {
+    .col-sm-6 .slick-slider p {
       font-size: 1em; }
 
-  .col-sm-6 .col-sm-4 .cf-rss {
+  .col-sm-6 .col-sm-4 .slick-slider {
     font-size: 2.5em; }
-    .col-sm-6 .col-sm-4 .cf-rss p {
+    .col-sm-6 .col-sm-4 .slick-slider p {
       font-size: 1em; }
 
-  .col-sm-3 .cf-rss,
-  .col-sm-6 .col-sm-12 .col-sm-6 .cf-rss {
+  .col-sm-3 .slick-slider,
+  .col-sm-6 .col-sm-12 .col-sm-6 .slick-slider {
     font-size: 2.5em; }
-    .col-sm-3 .cf-rss p,
-    .col-sm-6 .col-sm-12 .col-sm-6 .cf-rss p {
+    .col-sm-3 .slick-slider p,
+    .col-sm-6 .col-sm-12 .col-sm-6 .slick-slider p {
       font-size: 1em; } }
 /** MODULE: Line chart **/
 .cf-line.content {

@@ -2,6 +2,7 @@
 export const QUERY_LOADING = 'QUERY_LOADING';
 export const QUERY_FAIL    = 'QUERY_FAIL';
 export const QUERY_SUCCESS = 'QUERY_SUCCESS';
+export const TRANSACTIONS_LOADED = 'TRANSACTIONS_LOADED';
 
 export function queryLoading(query) {
   return {
@@ -24,32 +25,43 @@ export function querySuccess(response) {
   };
 }
 
-export function execQuery(query) {
-  return dispatch => {
-    dispatch(queryLoading(query));
-
-    const payload = {
-      query: query,
-    };
-
-    fetch( '/graphql', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload),
-    }).then( response => {
-      if (response.ok) {
-        return response.json();
-      }
-      throw new Error(response.body);
-    }).then( json => {
-      return dispatch( querySuccess( json ) );
-    })
-    .catch( error => {
-      return dispatch( queryFail( error ) );
-    });
+export function transactionsLoaded(response) {
+  return {
+    type: TRANSACTIONS_LOADED,
+    response,
   };
+}
+
+export function getTransactions() {
+  return dispatch => {
+    execQuery(dispatch, 'query { transactions { sender, recipient, value } }', transactionsLoaded);
+  };
+}
+
+function execQuery(dispatch, query, successAction) {
+  dispatch(queryLoading(query));
+
+  const payload = {
+    query: query,
+  };
+
+  fetch( '/graphql', {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload),
+  }).then( response => {
+    if (response.ok) {
+      return response.json();
+    }
+    throw new Error(response.body);
+  }).then( json => {
+    return dispatch( successAction( json ) );
+  })
+  .catch( error => {
+    return dispatch( queryFail( error ) );
+  });
 }
 

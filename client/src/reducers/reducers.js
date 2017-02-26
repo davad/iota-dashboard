@@ -32,7 +32,7 @@ export const queryReducer = ( state = ImmutableState, action) => {
                   .set('values',
                        Immutable.List(action.response.data.transactions.map(
                          tx => {
-                           return tx.value;
+                           return parseInt(tx.value, 10);
                          }
                        )));
   default:

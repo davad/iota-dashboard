@@ -16,7 +16,7 @@ import { QueryContainer } from './QueryContainer';
 import BarChart from './widgets/BarChart';
 import LineChart from './widgets/LineChart';
 import DoughnutChart from './widgets/DoughnutChart';
-import CountChanged from './widgets/CountChanged';
+import Count from './widgets/Count';
 import RSSFeed from './widgets/RSSFeed';
 
 // We are using bootstrap as the UI library
@@ -49,24 +49,24 @@ class App extends Component {
           title: 'Reactor Telemetrics',
         },
         ValueChangeMetricWidget: {
-          type: CountChanged,
-          title: 'Latest Transaction Value',
+          type: Count,
+          title: 'Number of transactions',
           props: {
-            data: this.getSubset('values', 2, this.props.store),
+            data: this.props.store.get('transactions').size,
           }
         },
         TransactionFeedWidget: {
           type: RSSFeed,
-          title: 'Last Transaction',
+          title: 'Recent transactions',
           props: {
-            transactions: this.getSubset('transactions', 1, this.props.store),
+            transactions: this.getSubset('transactions', 100, this.props.store),
           }
         },
         TransactionsSparkLineWidget: {
           type: LineChart,
           title: 'Recent Transaction Values',
           props: {
-            transactions: this.getSubset('transactions', 100, this.props.store),
+            data: this.getSubset('values', 100, this.props.store),
           }
         },
       },
@@ -74,16 +74,16 @@ class App extends Component {
       layout: {
         rows: [{
           columns: [{
-            className: 'col-md-12 col-sm-12 col-xs-12',
-            widgets: [{key: 'ValueChangeMetricWidget'}],
-          }],
-        }, {
-          columns: [{
             className: 'col-md-8 col-sm-8 col-xs-8',
-            widgets: [{key: 'TransactionsSparkLineWidget'}],
+            widgets: [{key: 'ValueChangeMetricWidget'}],
           }, {
             className: 'col-md-4 col-sm-4 col-xs-4',
             widgets: [{key: 'TransactionFeedWidget'}],
+          }],
+        }, {
+          columns: [{
+            className: 'col-md-12 col-sm-12 col-xs-12',
+            widgets: [{key: 'TransactionsSparkLineWidget'}],
           }],
         }],
       },
@@ -109,24 +109,24 @@ class App extends Component {
           title: 'Reactor Telemetrics',
         },
         ValueChangeMetricWidget: {
-          type: CountChanged,
-          title: 'Latest Transaction Value',
+          type: Count,
+          title: 'Number of transactions',
           props: {
-            data: this.getSubset('values', 2, nextProps.store),
+            data: this.props.store.get('transactions').size,
           }
         },
         TransactionFeedWidget: {
           type: RSSFeed,
-          title: 'Last Transaction',
+          title: 'Recent transactions',
           props: {
-            transactions: this.getSubset('transactions', 1, nextProps.store),
+            transactions: this.getSubset('transactions', 100, nextProps.store),
           }
         },
         TransactionsSparkLineWidget: {
           type: LineChart,
           title: 'Recent Transaction Values',
           props: {
-            transactions: this.getSubset('transactions', 100, nextProps.store),
+            data: this.getSubset('values', 100, nextProps.store),
           }
         },
       },
@@ -187,7 +187,7 @@ class App extends Component {
         getTransactions()
       );
       this.setState({refreshIntervalId});
-    }, 2000);
+    }, 300);
   }
 
   componentWillUnmount() {
@@ -197,29 +197,19 @@ class App extends Component {
   render() {
     const transactions  = this.props.store.get('data').get('transactions');
     let isLoaded = false;
-    let output;
 
     if (transactions) {
-      const values = transactions.map( tx => { return parseInt(tx.value) });
-      output = [
-        ( <CountChanged data={values.slice(-2)} /> ),
-        ( <RSSFeed transactions={transactions.slice(-1)} /> ),
-        ( <LineChart /> ),
-      ];
-
       isLoaded = true;
     }
 
     return (
     <Container>
       <Header />
-      { isLoaded ? (
         <Dashboard
           frameComponent={CustomFrame}
           layout={this.state.layout}
           widgets={this.state.widgets}
           />
-      ) : undefined }
     </Container>
     );
   }

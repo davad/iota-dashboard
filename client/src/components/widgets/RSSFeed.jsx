@@ -9,9 +9,11 @@ class RSSFeed extends Component {
   formatSlides(transactions) {
     return transactions.map( (tx, index) => {
       return (
-        <blockquote key={tx.index}>
-        {tx.sender} sent {tx.value} IOTA to {tx.recipient}
-        </blockquote>
+        <p key={tx.index}>
+          <blockquote key={tx.index}>
+            {tx.sender} sent {tx.value} IOTA to {tx.recipient}
+          </blockquote>
+        </p>
       );
     });
   }
@@ -39,9 +41,9 @@ class RSSFeed extends Component {
     const slides = (transactions) ? this.formatSlides(this.props.transactions) : <div key='empty' />;
 
     return (
-      <Slider {...settings}>
+      <div className="slick-slider">
         {slides}
-      </Slider>
+      </div>
     );
   }
 }

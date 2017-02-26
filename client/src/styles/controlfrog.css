@@ -1102,6 +1102,10 @@ body.white {
   left: 0;
   margin-bottom: 0; }
 
+.slick-slider { 
+  height: 225px;
+  overflow: hidden; };
+
 @media (min-width: 768px) {
   .slick-slider .slick-slide {
     height: 100%; }

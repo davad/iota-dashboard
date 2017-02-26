@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Dashboard, { addWidget } from 'react-dazzle';
 
 import { connect } from 'react-redux';
-import { execQuery } from '../actions/actions';
+import { getTransactions } from '../actions/actions';
 
 // App components
 import Header from './Header';
@@ -17,6 +17,7 @@ import BarChart from './widgets/BarChart';
 import LineChart from './widgets/LineChart';
 import DoughnutChart from './widgets/DoughnutChart';
 import CountChanged from './widgets/CountChanged';
+import RSSFeed from './widgets/RSSFeed';
 
 // We are using bootstrap as the UI library
 import 'bootstrap/dist/css/bootstrap.css';
@@ -27,6 +28,7 @@ import 'react-dazzle/lib/style/style.css';
 // Our styles
 import '../styles/custom.css';
 import '../styles/controlfrog.css';
+import '../styles/app.scss';
 
 class App extends Component {
   constructor(props) {
@@ -46,30 +48,93 @@ class App extends Component {
           type: LineChart,
           title: 'Reactor Telemetrics',
         },
+        ValueChangeMetricWidget: {
+          type: CountChanged,
+          title: 'Latest Transaction Value',
+          props: {
+            data: this.getSubset('values', 2, this.props.store),
+          }
+        },
+        TransactionFeedWidget: {
+          type: RSSFeed,
+          title: 'Last Transaction',
+          props: {
+            transactions: this.getSubset('transactions', 1, this.props.store),
+          }
+        },
+        TransactionsSparkLineWidget: {
+          type: LineChart,
+          title: 'Recent Transaction Values',
+          props: {
+            transactions: this.getSubset('transactions', 100, this.props.store),
+          }
+        },
       },
       // Layout of the dashboard
       layout: {
         rows: [{
           columns: [{
             className: 'col-md-12 col-sm-12 col-xs-12',
-            widgets: [{key: 'ShipVitalTelemetricsWidget'}],
+            widgets: [{key: 'ValueChangeMetricWidget'}],
           }],
         }, {
           columns: [{
             className: 'col-md-8 col-sm-8 col-xs-8',
-            widgets: [{key: 'EngineTelemetricsWidget'}],
+            widgets: [{key: 'TransactionsSparkLineWidget'}],
           }, {
             className: 'col-md-4 col-sm-4 col-xs-4',
-            widgets: [{key: 'PerformanceWidget'}],
+            widgets: [{key: 'TransactionFeedWidget'}],
           }],
         }],
       },
       editMode: false,
       isModalOpen: false,
       addWidgetOptions: null,
-      data: [],
-      transactions: [],
     };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      widgets: {
+        EngineTelemetricsWidget: {
+          type: BarChart,
+          title: 'Engine',
+        },
+        PerformanceWidget: {
+          type: DoughnutChart,
+          title: 'Reactor Temp',
+        },
+        ShipVitalTelemetricsWidget: {
+          type: LineChart,
+          title: 'Reactor Telemetrics',
+        },
+        ValueChangeMetricWidget: {
+          type: CountChanged,
+          title: 'Latest Transaction Value',
+          props: {
+            data: this.getSubset('values', 2, nextProps.store),
+          }
+        },
+        TransactionFeedWidget: {
+          type: RSSFeed,
+          title: 'Last Transaction',
+          props: {
+            transactions: this.getSubset('transactions', 1, nextProps.store),
+          }
+        },
+        TransactionsSparkLineWidget: {
+          type: LineChart,
+          title: 'Recent Transaction Values',
+          props: {
+            transactions: this.getSubset('transactions', 100, nextProps.store),
+          }
+        },
+      },
+    });
+  }
+
+  getSubset = (key, lastN, store) => {
+    return store.get(key).slice(-lastN).toJS();
   }
 
   /**
@@ -82,7 +147,7 @@ class App extends Component {
   }
 
   /**
-   * Adds new widgget.
+   * Adds new widget.
    */
   onAdd = (layout, rowIndex, columnIndex) => {
     // Open the AddWidget dialog by seting the 'isModalOpen' to true.
@@ -119,7 +184,7 @@ class App extends Component {
   componentDidMount() {
     const refreshIntervalId = setInterval( () => {
       this.props.dispatch(
-        execQuery( 'query { transactions { sender, recipient, value } }' )
+        getTransactions()
       );
       this.setState({refreshIntervalId});
     }, 2000);
@@ -136,9 +201,11 @@ class App extends Component {
 
     if (transactions) {
       const values = transactions.map( tx => { return parseInt(tx.value) });
-      output = (
-        <CountChanged data={values.slice(-2)} />
-      )
+      output = [
+        ( <CountChanged data={values.slice(-2)} /> ),
+        ( <RSSFeed transactions={transactions.slice(-1)} /> ),
+        ( <LineChart /> ),
+      ];
 
       isLoaded = true;
     }
@@ -146,9 +213,13 @@ class App extends Component {
     return (
     <Container>
       <Header />
-      { isLoaded ? ( output ) : undefined }
-
-
+      { isLoaded ? (
+        <Dashboard
+          frameComponent={CustomFrame}
+          layout={this.state.layout}
+          widgets={this.state.widgets}
+          />
+      ) : undefined }
     </Container>
     );
   }

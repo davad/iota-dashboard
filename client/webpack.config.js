@@ -57,6 +57,9 @@ module.exports = {
     publicPath: '/',
     chunkFilename: '[id].chunk.js',
   },
+  sassLoader: {
+    includePaths: [ 'node_modules' ]
+  },
   plugins: plugins,
 
   devServer: {
@@ -71,6 +74,7 @@ module.exports = {
     ],
     loaders: [
       { test: /\.css$/, loader: 'style-loader!css-loader' },
+      { test: /\.scss$/, loaders: [ 'style', 'css', 'sass' ] },
       { test: /\.(js|jsx)$/, loaders: ['react-hot', 'babel'], exclude: /node_modules/ },
       { test: /\.json$/, loader: 'json-loader' },
       { test: /\.(png|jpg|jpeg|gif|svg)$/, loader: 'url-loader?prefix=img/&limit=5000' },

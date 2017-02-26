@@ -59,7 +59,7 @@ class App extends Component {
           type: RSSFeed,
           title: 'Recent transactions',
           props: {
-            transactions: this.getSubset('transactions', 100, this.props.store),
+            transactions: this.getSubset('transactions', 10, this.props.store).reverse(),
           }
         },
         TransactionsSparkLineWidget: {
@@ -119,7 +119,7 @@ class App extends Component {
           type: RSSFeed,
           title: 'Recent transactions',
           props: {
-            transactions: this.getSubset('transactions', 100, nextProps.store),
+            transactions: this.getSubset('transactions', 10, nextProps.store).reverse(),
           }
         },
         TransactionsSparkLineWidget: {
